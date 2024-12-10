@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "singularName": "order",
+    "pluralName": "orders",
+    "displayName": "Order",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "shopper": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shopper.shopper",
+      "inversedBy": "orders"
+    },
+    "quantity": {
+      "type": "integer"
+    },
+    "orderStatus": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "sent",
+        "delivered"
+      ]
+    },
+    "totalPrice": {
+      "type": "decimal"
+    },
+    "purchaseDate": {
+      "type": "datetime"
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}
