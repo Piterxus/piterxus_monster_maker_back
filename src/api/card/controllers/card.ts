@@ -12,7 +12,7 @@ export default factories.createCoreController('api::card.card', ({ strapi }) => 
   async bulkReserve(ctx) {
     try {
       console.log('Body recibido:', ctx.request.body);
-      const { documentIds, productStatus } = ctx.request.body.data;
+      const { documentIds, productStatus } = ctx.request.body;
 
       if (!Array.isArray(documentIds) || documentIds.length === 0 || !productStatus) {
         return ctx.badRequest('Debe proporcionar un array de documentIds y un productStatus.');
