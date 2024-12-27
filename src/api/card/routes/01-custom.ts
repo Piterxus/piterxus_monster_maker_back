@@ -4,7 +4,7 @@ export default{
     routes: [
         {
             method: 'PUT',
-            path: '/custom/:document_id/bulk-reserve', // Ruta personalizada
+            path: '/card/bulk-reserve', // Ruta personalizada
             handler: 'card.bulkReserve', // Acción del controlador
             config: {
               auth: false,
@@ -12,7 +12,7 @@ export default{
           },
           {
             method: 'GET',
-            path: '/custom/test',
+            path: '/card/test',
             handler: 'card.test',
             config: {
               policies: [],
