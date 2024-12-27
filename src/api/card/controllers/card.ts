@@ -2,9 +2,42 @@
  * card controller
  */
 
-import { factories } from '@strapi/strapi'
+// import { factories } from '@strapi/strapi'
 
-export default factories.createCoreController('api::card.card');
+// export default factories.createCoreController('api::card.card');
+
+import { factories } from '@strapi/strapi';
+
+export default factories.createCoreController('api::card.card', ({ strapi }) => ({
+  async bulkReserve(ctx) {
+    try {
+      const { documentIds, productStatus } = ctx.request.body;
+
+      if (!Array.isArray(documentIds) || !productStatus) {
+        return ctx.badRequest('Debe proporcionar un array de documentIds y un productStatus.');
+      }
+
+      // Iterar sobre los IDs y actualizar cada uno
+      const updatedCards = await Promise.all(
+        documentIds.map(async (documentId) => {
+          return await strapi.entityService.update('api::card.card', documentId, {
+            data: { productStatus: productStatus },
+          });
+        })
+      );
+
+      ctx.send({
+        message: 'Tarjetas actualizadas exitosamente',
+        updatedCards,
+      });
+    } catch (error) {
+      console.error(error);
+      ctx.internalServerError('Error al actualizar las tarjetas');
+    }
+  },
+}));
+
+
 
 /**
  * card controller
