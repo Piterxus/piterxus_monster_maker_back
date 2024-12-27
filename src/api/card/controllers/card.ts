@@ -11,17 +11,29 @@ import { factories } from '@strapi/strapi';
 export default factories.createCoreController('api::card.card', ({ strapi }) => ({
   async bulkReserve(ctx) {
     try {
-      const { documentIds, productStatus } = ctx.request.body;
+      const { documentIds, productStatus } = ctx.request.body.data;
 
-      if (!Array.isArray(documentIds) || !productStatus) {
+      if (!Array.isArray(documentIds) || documentIds.length === 0 || !productStatus) {
         return ctx.badRequest('Debe proporcionar un array de documentIds y un productStatus.');
       }
 
-      // Iterar sobre los IDs y actualizar cada uno
+      // Usamos `findMany` con un filtro para obtener los documentos con los `documentIds` proporcionados
+      const existingCards = await strapi.documents('api::card.card').findMany({
+        filters: {
+          documentId: { $in: documentIds }, // Asegúrate de que `documentId` sea un campo válido
+        },
+      });
+
+      if (existingCards.length === 0) {
+        return ctx.notFound('No se encontraron tarjetas con esos documentIds.');
+      }
+
+      // Actualizar los documentos encontrados
       const updatedCards = await Promise.all(
-        documentIds.map(async (documentId) => {
-          return await strapi.entityService.update('api::card.card', documentId, {
-            data: { productStatus: productStatus },
+        existingCards.map(async (card) => {
+          return await strapi.documents('api::card.card').update({
+            documentId: card.documentId, // Asegúrate de usar el `documentId` correcto
+            data: { productStatus },
           });
         })
       );
@@ -36,6 +48,9 @@ export default factories.createCoreController('api::card.card', ({ strapi }) => 
     }
   },
 }));
+
+
+
 
 
 
