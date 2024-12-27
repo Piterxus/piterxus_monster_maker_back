@@ -11,6 +11,7 @@ import { factories } from '@strapi/strapi';
 export default factories.createCoreController('api::card.card', ({ strapi }) => ({
   async bulkReserve(ctx) {
     try {
+      console.log('Body recibido:', ctx.request.body);
       const { documentIds, productStatus } = ctx.request.body.data;
 
       if (!Array.isArray(documentIds) || documentIds.length === 0 || !productStatus) {
@@ -47,6 +48,10 @@ export default factories.createCoreController('api::card.card', ({ strapi }) => 
       ctx.internalServerError('Error al actualizar las tarjetas');
     }
   },
+  async test(ctx) {
+    console.log('Test endpoint ejecutado');
+    ctx.send({ message: '¡Hola desde el controlador!' });
+  }
 }));
 
 

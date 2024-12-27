@@ -27,6 +27,14 @@ export const customRoutes = [
       auth: false,
     },
   },
+  {
+    method: 'GET',
+    path: '/cards/test',
+    handler: 'api::card.card.test',
+    config: {
+      policies: [],
+    },
+  },
 ];
 
 // Registra las rutas personalizadas en la configuración del router
