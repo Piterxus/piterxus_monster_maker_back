@@ -479,7 +479,7 @@ export interface ApiCardCard extends Struct.CollectionTypeSchema {
     singularName: 'card';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   pluginOptions: {
     i18n: {
