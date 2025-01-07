@@ -4,8 +4,8 @@ export default{
     routes: [
         {
             method: 'PUT',
-            path: '/card/bulk-reserve', // Ruta personalizada
-            handler: 'card.bulkReserve', // Acción del controlador
+            path: '/card/bulk-update', // Ruta personalizada
+            handler: 'card.bulkUpdate', // Acción del controlador
             config: {
               auth: false,
             },

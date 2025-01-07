@@ -9,7 +9,7 @@
 import { factories } from '@strapi/strapi';
 
 export default factories.createCoreController('api::card.card', ({ strapi }) => ({
-  async bulkReserve(ctx) {
+  async bulkUpdate(ctx) {
     try {
       console.log('Body recibido:', ctx.request.body);
       const { documentIds, productStatus } = ctx.request.body;
